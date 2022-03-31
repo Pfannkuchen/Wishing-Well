@@ -159,11 +159,11 @@ Material:
     - _SurfaceFoamMovement: {r: 0.7, g: 0, b: 0.47, a: 0.01}
     - _SurfaceFoamSampling: {r: 0.62, g: 0, b: 0, a: 0}
     - _SurfaceFoamTilingAndOffset: {r: -1, g: -1, b: 0.57, a: 0.22}
-    - _WaterColorDeep: {r: 0.03613386, g: 0.06934849, b: 0.26410037, a: 0}
-    - _WaterColorHorizon: {r: 0, g: 0.1543357, b: 0.6603774, a: 1}
-    - _WaterColorShallow: {r: 0.052378878, g: 0.26344427, b: 0.3584314, a: 0}
-    - _WaterColorUnderwater: {r: 0.42917123, g: 0.6212749, b: 1, a: 0}
-    - _WaveColor: {r: 0.20752612, g: 0.20752612, b: 0.20752612, a: 0}
+    - _WaterColorDeep: {r: 0.03613386, g: 0.06934825, b: 0.26410007, a: 0}
+    - _WaterColorHorizon: {r: 0, g: 0.15433541, b: 0.6603774, a: 1}
+    - _WaterColorShallow: {r: 0.052378647, g: 0.26344395, b: 0.35843107, a: 0}
+    - _WaterColorUnderwater: {r: 0.4291709, g: 0.6212749, b: 1, a: 0}
+    - _WaveColor: {r: 0.20752582, g: 0.20752582, b: 0.20752582, a: 0}
     - _WaveDirections: {r: 0.252, g: 0.64, b: 1, a: 0.33}
     - _WaveVisuals: {r: 0.264, g: 3, b: 1.38, a: 0}
   m_BuildTextureStacks: []

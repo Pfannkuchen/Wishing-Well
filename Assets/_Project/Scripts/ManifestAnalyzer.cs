@@ -31,10 +31,6 @@ public class ManifestAnalyzer : MonoBehaviour
         foreach (Manifest m in allManifests)
         {
             count++;
-            if (count % 50 == 0)
-            {
-                LogResult(count, allManifests.Count);
-            }
 
             // deserialize manifest
             string mJSON = await DataProvider.GetDataBaseJSON(m.Id);
@@ -55,6 +51,11 @@ public class ManifestAnalyzer : MonoBehaviour
                 {
                     AllMetadata.Add(md.label, 1);
                 }
+            }
+            
+            if (count % 50 == 0)
+            {
+                LogResult(count, allManifests.Count);
             }
         }
 
