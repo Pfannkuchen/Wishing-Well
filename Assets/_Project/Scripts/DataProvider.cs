@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Leipzig;
 using Newtonsoft.Json;
@@ -11,6 +13,8 @@ using Canvas = Leipzig.Canvas;
 public class DataProvider : MonoBehaviour
 {
     private const int ImageResolution = 800;
+
+    public static CancellationTokenSource TokenSource = new CancellationTokenSource();
 
 
     [SerializeField] private CoinThrower _thrower;
@@ -30,23 +34,29 @@ public class DataProvider : MonoBehaviour
         LoadData();
     }
 
+    private void OnApplicationQuit()
+    {
+        TokenSource.Cancel();
+    }
+
     private async void LoadData()
     {
         Debug.Log("LoadData started.");
 
         AllManifests.Clear();
 
-        string json = await GetDataBaseJSON(DataBaseURL);
+        string json = await GetDataBaseJSON(DataBaseURL, true);
         Root databaseRoot = JsonConvert.DeserializeObject<Root>(json);
 
         foreach (Manifest m in databaseRoot.manifests)
         {
+            if (TokenSource.IsCancellationRequested) return;
             AllManifests.Add(m);
         }
 
         Debug.Log($"Manifests in Database: " + AllManifests.Count);
-
-        Thrower.CreateNewCoins();
+    
+        _databaseLoaded.Invoke(AllManifests);
     }
 
     /*
@@ -121,43 +131,48 @@ public class DataProvider : MonoBehaviour
         return new CoinData(mDeserialized, images[0], images[1], information.ToArray());
     }
 
-    public async Task<string> GetDataBaseJSON(string url)
+    public static async Task<string> GetDataBaseJSON(string url, bool log = false)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         
-        Debug.unityLogger.logEnabled = false;
-        request.SetRequestHeader("X-Accept-Encoding", "gzip");
-        Debug.unityLogger.logEnabled = true;
-
+        //request.SetRequestHeader("Accept-Encoding", "gzip");
         request.SendWebRequest();
 
-        while (!request.isDone) await Task.Yield();
+        while (!request.isDone)
+        {
+            if (TokenSource.IsCancellationRequested) return "";
+            await Task.Yield();
+        }
 
         if (request.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError(request.error + ", " + request.result);
             return null;
         }
-        
-        Debug.Log($"Database downloaded: {request.downloadedBytes} bytes");
+
+        if(log) Debug.Log($"Database downloaded: {request.downloadedBytes} bytes");
         return request.downloadHandler.text;
     }
 
-    private async Task<Texture2D> GetDatabaseTexture2D(string url)
+    private async Task<Texture2D> GetDatabaseTexture2D(string url, bool log = false)
     {
         //Debug.Log($"GetDatabaseTexture2D({url})");
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
         request.SendWebRequest();
 
-        while (!request.isDone) await Task.Yield();
+        while (!request.isDone)
+        {
+            if (TokenSource.IsCancellationRequested) return null;
+            await Task.Yield();
+        }
 
         if (request.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError(request.error + ", " + request.result);
             return null;
         }
-    
-        Debug.Log($"Image downloaded: {request.downloadedBytes} bytes");
+
+        if(log) Debug.Log($"Image downloaded: {request.downloadedBytes} bytes");
         return DownloadHandlerTexture.GetContent(request);
     }
 }
