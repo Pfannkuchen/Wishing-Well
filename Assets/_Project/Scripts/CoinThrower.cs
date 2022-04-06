@@ -1,22 +1,18 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Unity.Mathematics;
 using UnityEngine;
-using Random = System.Random;
 
 public class CoinThrower : MonoBehaviour
 {
+    [SerializeField] private ApplicationSettings _settings;
+    private ApplicationSettings Settings => _settings;
+    
     [SerializeField] private DataProvider _provider;
     private DataProvider Provider => _provider;
-    
-    [SerializeField] private Coin _coinPrefab;
-    private Coin CoinPrefab => _coinPrefab;
 
-    [SerializeField] private Transform[] _coinPositions;
-    private Transform[] CoinPositions => _coinPositions;
+    [SerializeField] private Vector2 _coinPositionRange = new Vector2(-2f, 2f);
+    private Vector2 CoinPositionRange => _coinPositionRange;
 
     [SerializeField] private Transform _throwTarget;
     private Transform ThrowTarget => _throwTarget;
@@ -26,21 +22,13 @@ public class CoinThrower : MonoBehaviour
 
     [SerializeField] private float _waterHeight;
     private float WaterHeight => _waterHeight;
-
-    [SerializeField] private float _underwaterGravity;
-    private float UnderwaterGravity => _underwaterGravity;
+    
 
     private List<Coin> _loadedCoins;
     private List<Coin> LoadedCoins => _loadedCoins ??= new List<Coin>();
 
     private bool _allowUserInteraction;
-
-    CancellationTokenSource tokenSource = new CancellationTokenSource();
-
-    private void OnApplicationQuit()
-    {
-        tokenSource.Cancel();
-    }
+    
 
     public void ThrowCoin(Coin coin)
     {
@@ -71,24 +59,34 @@ public class CoinThrower : MonoBehaviour
     {
         LoadedCoins.Clear();
 
-        for (int i = 0; i < CoinPositions.Length; i++)
+        if (Settings == null || Settings.CoinPrefab == null)
+        {
+            Debug.LogError("Settings is null or incomplete!");
+            return;
+        }
+
+        for (int i = 0; i < Settings.CoinSelectionCount; i++)
         {
             int attempts = 100;
             CoinData randomCoinData = null;
             while (randomCoinData == null && attempts > 0)
             {
-                if (tokenSource.Token.IsCancellationRequested) return;
+                if (DataProvider.TokenSource.Token.IsCancellationRequested) return;
                 randomCoinData = await Provider.GetRandomCoinData();
                 attempts--;
             }
 
             if (randomCoinData == null) continue;
-            if (tokenSource.Token.IsCancellationRequested) return;
+            if (DataProvider.TokenSource.Token.IsCancellationRequested) return;
+
+            float coinPosX = Mathf.Lerp(CoinPositionRange.x, CoinPositionRange.y, (1f / (Settings.CoinSelectionCount - 1f)) * i);
+            Vector3 coinPosComposite = new Vector3(coinPosX, 0f, 0f);
             
-            Coin newCoin = Instantiate(CoinPrefab, CoinPositions[i].position, Quaternion.identity);
+            Coin newCoin = Instantiate(Settings.CoinPrefab, coinPosComposite, Quaternion.identity);
+            newCoin.SetScale(Settings.CoinScale);
             newCoin.SetCoinConnection(this, i);
             newCoin.SetCoinData(randomCoinData);
-            newCoin.gameObject.name = "Coin_" + i;
+            newCoin.gameObject.name = $"Coin_{i}_{randomCoinData.information?[0]}";
             LoadedCoins.Add(newCoin);
         }
 
@@ -97,23 +95,27 @@ public class CoinThrower : MonoBehaviour
 
     private async void PlayThrowAnimation(Coin coin)
     {
-        //Debug.Log($"PlayThrowAnimation({coin?.gameObject.name})");
-
         if (coin == null) return;
+        
+        if (Settings == null || Settings.CoinPrefab == null)
+        {
+            Debug.LogError("Settings is null or incomplete!");
+            return;
+        }
         
         coin.Deactivate();
 
         const float gravity = 1f;
+        float underwaterGravity = gravity * Settings.UnderwaterGravity;
+        int f = Settings.MaxFlipRotations;
 
         Vector3 startPos = coin.transform.position;
-        Vector3 endPosOffset = new Vector3(UnityEngine.Random.Range(-ThrowTargetOffset.x, ThrowTargetOffset.x), 0f, UnityEngine.Random.Range(-ThrowTargetOffset.y, ThrowTargetOffset.y));
+        Vector3 endPosOffset = new Vector3(Random.Range(-ThrowTargetOffset.x, ThrowTargetOffset.x), 0f, Random.Range(-ThrowTargetOffset.y, ThrowTargetOffset.y));
         Vector3 endPos = ThrowTarget.position + endPosOffset;
-
-        int f = 6;
-
+        
         Vector3 startRot = coin.transform.rotation.eulerAngles;
         Vector3 endRot = new Vector3(90f, 90f, 90f);
-        endRot += new Vector3(UnityEngine.Random.Range(-f, f) * 180f, UnityEngine.Random.Range(-f, f) * 360f, UnityEngine.Random.Range(-f, f) * 360f);
+        endRot += new Vector3(Random.Range(-f, f) * 180f, Random.Range(-f, f) * 360f, Random.Range(-f, f) * 360f);
 
         float lerp = 0f;
         bool hasBeenSetUnderwater = false;
@@ -122,7 +124,7 @@ public class CoinThrower : MonoBehaviour
         {
             bool isUnderwater = coin.transform.position.y < WaterHeight;
             
-            lerp = Mathf.Clamp(lerp + Time.deltaTime * (isUnderwater ? UnderwaterGravity : gravity), 0f, 1f);
+            lerp = Mathf.Clamp(lerp + Time.deltaTime * (isUnderwater ? underwaterGravity : gravity), 0f, 1f);
             
             Vector3 pos = Vector3.Lerp(startPos, endPos, lerp);
             pos.y = Mathf.Lerp(startPos.y, endPos.y, Easing.EaseInQuad(lerp));

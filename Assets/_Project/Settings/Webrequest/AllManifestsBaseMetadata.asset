@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c49722c27d4ace43b158f44ebac8dcd, type: 3}
-  m_Name: ApplicationSettings
+  m_Script: {fileID: 11500000, guid: d6624a2f294940d7b9520a2e91a411fa, type: 3}
+  m_Name: AllManifestsBaseMetadata
   m_EditorClassIdentifier: 
-  _coinSelectionCount: 5
-  _maxFlipRotations: 10
+  _url: https://iiif.ub.uni-leipzig.de/kenom/collections/institution:DE-15/all.json

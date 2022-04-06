@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 181b035743e8be74e81b42a4f9130f3b, type: 3}
-  m_Name: DatabaseSettings
+  m_Script: {fileID: 11500000, guid: 2c49722c27d4ace43b158f44ebac8dcd, type: 3}
+  m_Name: ApplicationSettings
   m_EditorClassIdentifier: 
-  _url: 
-  _maxImageResolution: 800
+  _coinPrefab: {fileID: 1100994439772388895, guid: e28f42d31f433f44dbbd76616d0dc66d, type: 3}
+  _coinSelectionCount: 5
+  _coinScale: 1
+  _maxFlipRotations: 6
+  _underwaterGravity: 0.4

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,21 +11,18 @@ using Canvas = Leipzig.Canvas;
 
 public class DataProvider : MonoBehaviour
 {
-    private const int ImageResolution = 800;
-
-    public static CancellationTokenSource TokenSource = new CancellationTokenSource();
-
-
-    [SerializeField] private CoinThrower _thrower;
-    private CoinThrower Thrower => _thrower;
-
-    [SerializeField] private string _dataBaseURL = "";
-    private string DataBaseURL => _dataBaseURL;
+    public static readonly CancellationTokenSource TokenSource = new CancellationTokenSource();
+    
+    
+    [SerializeField] private DatabaseSettings _settings;
+    private DatabaseSettings Settings => _settings;
+    
+    [SerializeField] private UnityEvent<List<Manifest>> _databaseLoaded;
+    
 
     private List<Manifest> _allManifests;
     private List<Manifest> AllManifests => _allManifests ??= new List<Manifest>();
 
-    [SerializeField] private UnityEvent<List<Manifest>> _databaseLoaded;
 
     // Start is called before the first frame update
     private void Start()
@@ -41,12 +37,24 @@ public class DataProvider : MonoBehaviour
 
     private async void LoadData()
     {
-        Debug.Log("LoadData started.");
+        Debug.Log("DataProvider -> LoadData()");
+
+        if (Settings == null || Settings.RequestSettings == null)
+        {
+            Debug.LogError("Settings is null or incomplete!");
+            return;
+        }
 
         AllManifests.Clear();
 
-        string json = await GetDataBaseJSON(DataBaseURL, true);
+        string json = await GetDataBaseJSON(Settings.RequestSettings.URL, true);
         Root databaseRoot = JsonConvert.DeserializeObject<Root>(json);
+
+        if (databaseRoot == null)
+        {
+            Debug.LogError("Found no Root in database!");
+            return;
+        }
 
         foreach (Manifest m in databaseRoot.manifests)
         {
@@ -54,7 +62,7 @@ public class DataProvider : MonoBehaviour
             AllManifests.Add(m);
         }
 
-        Debug.Log($"Manifests in Database: " + AllManifests.Count);
+        Debug.Log($"DataProvider -> Found {AllManifests.Count} coin manifests.");
     
         _databaseLoaded.Invoke(AllManifests);
     }
@@ -95,11 +103,11 @@ public class DataProvider : MonoBehaviour
     public async Task<CoinData> GetRandomCoinData()
     {
         // choose random manifest
-        Manifest m = AllManifests[UnityEngine.Random.Range(0, AllManifests.Count)];
+        Manifest m = AllManifests[Random.Range(0, AllManifests.Count)];
 
         // deserialize manifest
-        string mJSON = await GetDataBaseJSON(m.Id);
-        ManifestDeserialized mDeserialized = JsonConvert.DeserializeObject<ManifestDeserialized>(mJSON);
+        string json = await GetDataBaseJSON(m.Id);
+        ManifestDeserialized mDeserialized = JsonConvert.DeserializeObject<ManifestDeserialized>(json);
         if (mDeserialized == null) return null;
 
         List<string> information = new List<string>();
@@ -111,12 +119,15 @@ public class DataProvider : MonoBehaviour
         if (mDeserialized.sequences == null || mDeserialized.sequences.Count <= 0 || mDeserialized.sequences[0] == null) return null;
         if (mDeserialized.sequences[0].canvases == null || mDeserialized.sequences[0].canvases.Count <= 0) return null;
 
+        string imageRes = Settings.MaxImageResolution.ToString();
+
         List<Texture2D> images = new List<Texture2D>();
         foreach (Canvas cvs in mDeserialized.sequences[0].canvases)
         {
             if (cvs?.images == null || cvs.images.Count <= 0 || cvs.images[0] == null) continue;
 
-            string imagePath = cvs.images[0].resource.service.Id + "/full/" + ImageResolution.ToString() + "," + ImageResolution.ToString() + "/0/default.jpg";
+            //string imagePath = cvs.images[0].resource.service.Id + "/full/" + imageRes + "," + imageRes + "/0/default.jpg";
+            string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},{imageRes}/0/default.jpg";
 
             images.Add(await GetDatabaseTexture2D(imagePath));
         }

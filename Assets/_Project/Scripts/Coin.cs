@@ -26,6 +26,12 @@ public class Coin : MonoBehaviour
 
     public int Index { get; private set; }
 
+    public void SetScale(float scale)
+    {
+        if (Front != null) Front.transform.localScale = Vector3.one * scale;
+        if (Back != null) Back.transform.localScale = Vector3.one * scale;
+    }
+
     public void SetCoinConnection(CoinThrower thrower, int index)
     {
         this._thrower = thrower;
@@ -48,7 +54,11 @@ public class Coin : MonoBehaviour
 
     private void FlipBack(bool flip)
     {
-        Back.transform.localScale = new Vector3(flip ? -1f : 1f, 1f, 1f);
+        if (Back == null) return;
+            
+        var scale = Back.transform.localScale;
+        scale.x *= flip ? -1f : 1f;
+        Back.transform.localScale = scale;
     }
 
     public void SetUnderwater(bool underwater)
