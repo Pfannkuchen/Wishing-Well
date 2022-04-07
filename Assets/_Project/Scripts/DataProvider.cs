@@ -11,7 +11,7 @@ using Canvas = Leipzig.Canvas;
 
 public class DataProvider : MonoBehaviour
 {
-    public static readonly CancellationTokenSource TokenSource = new CancellationTokenSource();
+    public static readonly CancellationTokenSource ApplicationQuit = new CancellationTokenSource();
     
     
     [SerializeField] private DatabaseSettings _settings;
@@ -32,7 +32,7 @@ public class DataProvider : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        TokenSource.Cancel();
+        ApplicationQuit.Cancel();
     }
 
     private async void LoadData()
@@ -58,7 +58,7 @@ public class DataProvider : MonoBehaviour
 
         foreach (Manifest m in databaseRoot.manifests)
         {
-            if (TokenSource.IsCancellationRequested) return;
+            if (ApplicationQuit.IsCancellationRequested) return;
             AllManifests.Add(m);
         }
 
@@ -119,7 +119,7 @@ public class DataProvider : MonoBehaviour
         if (mDeserialized.sequences == null || mDeserialized.sequences.Count <= 0 || mDeserialized.sequences[0] == null) return null;
         if (mDeserialized.sequences[0].canvases == null || mDeserialized.sequences[0].canvases.Count <= 0) return null;
 
-        string imageRes = Settings.MaxImageResolution.ToString();
+        string imageRes = Settings.ImageResolution.ToString();
 
         List<Texture2D> images = new List<Texture2D>();
         foreach (Canvas cvs in mDeserialized.sequences[0].canvases)
@@ -151,7 +151,7 @@ public class DataProvider : MonoBehaviour
 
         while (!request.isDone)
         {
-            if (TokenSource.IsCancellationRequested) return "";
+            if (ApplicationQuit.IsCancellationRequested) return "";
             await Task.Yield();
         }
 
@@ -173,7 +173,7 @@ public class DataProvider : MonoBehaviour
 
         while (!request.isDone)
         {
-            if (TokenSource.IsCancellationRequested) return null;
+            if (ApplicationQuit.IsCancellationRequested) return null;
             await Task.Yield();
         }
 

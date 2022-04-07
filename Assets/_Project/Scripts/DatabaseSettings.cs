@@ -6,6 +6,6 @@ public class DatabaseSettings : ScriptableObject
     [SerializeField] private WebRequestSettings _requestSettings;
     public WebRequestSettings RequestSettings => _requestSettings;
 
-    [SerializeField, Min(16)] private int _maxImageResolution = 800;
-    public int MaxImageResolution => _maxImageResolution;
+    [SerializeField, Min(16)] private int _imageResolution = 800;
+    public int ImageResolution => _imageResolution;
 }

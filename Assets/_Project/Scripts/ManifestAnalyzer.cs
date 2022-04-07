@@ -40,7 +40,7 @@ public class ManifestAnalyzer : MonoBehaviour
 
             foreach (Metadata md in mDeserialized.metadata)
             {
-                if (DataProvider.TokenSource.IsCancellationRequested) return;
+                if (DataProvider.ApplicationQuit.IsCancellationRequested) return;
                 if (md == null) continue;
 
                 if (AllMetadata.ContainsKey(md.label))

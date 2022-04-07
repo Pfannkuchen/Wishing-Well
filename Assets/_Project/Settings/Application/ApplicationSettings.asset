@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c49722c27d4ace43b158f44ebac8dcd, type: 3}
   m_Name: ApplicationSettings
   m_EditorClassIdentifier: 
-  _coinPrefab: {fileID: 1100994439772388895, guid: e28f42d31f433f44dbbd76616d0dc66d, type: 3}
   _coinSelectionCount: 5
   _coinScale: 1
+  _metadataFadeInRange: {x: 1.5, y: 3}
+  _metadataFadeOutRange: {x: 0.3, y: 0.7}
+  _minMetadataDisplay: 2
+  _maxMetadataDisplay: 5
   _maxFlipRotations: 6
   _underwaterGravity: 0.4
