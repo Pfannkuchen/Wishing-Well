@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Leipzig;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class ManifestAnalyzer : MonoBehaviour
 {
@@ -33,7 +34,10 @@ public class ManifestAnalyzer : MonoBehaviour
             count++;
 
             // deserialize manifest
-            string mJSON = await DataProvider.GetDataBaseJSON(m.Id);
+            UnityWebRequest request = await DataProvider.GetDataBaseJson(m.Id);
+            if (request == null) continue;
+            
+            string mJSON = request.downloadHandler.text;
             ManifestDeserialized mDeserialized = JsonConvert.DeserializeObject<ManifestDeserialized>(mJSON);
 
             if (mDeserialized == null || mDeserialized.metadata == null || mDeserialized.metadata.Count <= 0) continue;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using Canvas = Leipzig.Canvas;
+using Debug = UnityEngine.Debug;
 
 public class DataProvider : MonoBehaviour
 {
@@ -27,6 +29,7 @@ public class DataProvider : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        AdditionalInfoManager.Parameter.Sessions.AddValue(1);
         LoadData();
     }
 
@@ -37,6 +40,8 @@ public class DataProvider : MonoBehaviour
 
     private async void LoadData()
     {
+        Stopwatch stopwatch = Stopwatch.StartNew(); 
+        
         Debug.Log("DataProvider -> LoadData()");
 
         if (Settings == null || Settings.RequestSettings == null)
@@ -47,7 +52,14 @@ public class DataProvider : MonoBehaviour
 
         AllManifests.Clear();
 
-        string json = await GetDataBaseJSON(Settings.RequestSettings.URL, true);
+        UnityWebRequest request = await GetDataBaseJson(Settings.RequestSettings.URL);
+        if (request == null)
+        {
+            Debug.LogError($"Request is null!");
+            return;
+        }
+
+        string json = request.downloadHandler.text;
         Root databaseRoot = JsonConvert.DeserializeObject<Root>(json);
 
         if (databaseRoot == null)
@@ -62,7 +74,17 @@ public class DataProvider : MonoBehaviour
             AllManifests.Add(m);
         }
 
+        // report size
+        Debug.Log($"Database downloaded: {request.downloadedBytes} bytes");
+        AdditionalInfoManager.Parameter.DatabaseSize.SetValue((int)request.downloadedBytes);
+        
+        // report load time
+        stopwatch.Stop();
+        AdditionalInfoManager.Parameter.DatabaseSize.SetValue((int)stopwatch.ElapsedMilliseconds);
+        
+        // report manifests
         Debug.Log($"DataProvider -> Found {AllManifests.Count} coin manifests.");
+        AdditionalInfoManager.Parameter.CoinManifests.SetValue(AllManifests.Count);
     
         _databaseLoaded.Invoke(AllManifests);
     }
@@ -106,9 +128,20 @@ public class DataProvider : MonoBehaviour
         Manifest m = AllManifests[Random.Range(0, AllManifests.Count)];
 
         // deserialize manifest
-        string json = await GetDataBaseJSON(m.Id);
+        UnityWebRequest request = await GetDataBaseJson(m.Id);
+        if (request == null)
+        {
+            Debug.LogError("Request is null!");
+            return null;
+        }
+        
+        string json = request.downloadHandler.text;
         ManifestDeserialized mDeserialized = JsonConvert.DeserializeObject<ManifestDeserialized>(json);
-        if (mDeserialized == null) return null;
+        if (mDeserialized == null)
+        {
+            Debug.LogError($"JSON could not be deserialized: {json}");
+            return null;
+        }
 
         List<string> information = new List<string>();
         foreach (Metadata meta in mDeserialized.metadata.Where(x => !string.IsNullOrEmpty(x.value)))
@@ -142,7 +175,7 @@ public class DataProvider : MonoBehaviour
         return new CoinData(mDeserialized, images[0], images[1], information.ToArray());
     }
 
-    public static async Task<string> GetDataBaseJSON(string url, bool log = false)
+    public static async Task<UnityWebRequest> GetDataBaseJson(string url)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         
@@ -151,7 +184,12 @@ public class DataProvider : MonoBehaviour
 
         while (!request.isDone)
         {
-            if (ApplicationQuit.IsCancellationRequested) return "";
+            if (ApplicationQuit.IsCancellationRequested)
+            {
+                Debug.Log("Database loading process was stopped by the OnApplicationQuit Event!");
+                return null;
+            }
+            
             await Task.Yield();
         }
 
@@ -161,8 +199,8 @@ public class DataProvider : MonoBehaviour
             return null;
         }
 
-        if(log) Debug.Log($"Database downloaded: {request.downloadedBytes} bytes");
-        return request.downloadHandler.text;
+        return request;
+        //return request.downloadHandler.text;
     }
 
     private async Task<Texture2D> GetDatabaseTexture2D(string url, bool log = false)

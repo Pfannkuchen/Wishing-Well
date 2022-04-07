@@ -68,6 +68,7 @@ public class CoinThrower : MonoBehaviour
         {
             if (loadedCoin == coin)
             {
+                AdditionalInfoManager.Parameter.CoinsThrown.AddValue(1);
                 PlayThrowAnimation(loadedCoin);
             }
             else
@@ -117,6 +118,8 @@ public class CoinThrower : MonoBehaviour
             newCoin.SetCoinData(randomCoinData);
             newCoin.gameObject.name = $"Coin_{i}_{randomCoinData.information?[0]}";
             LoadedCoins.Add(newCoin);
+            
+            AdditionalInfoManager.Parameter.CoinsLoaded.AddValue(1);
         }
 
         _allowUserInteraction = true;
