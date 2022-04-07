@@ -175,7 +175,7 @@ public class DataProvider : MonoBehaviour
         return new CoinData(mDeserialized, images[0], images[1], information.ToArray());
     }
 
-    public static async Task<UnityWebRequest> GetDataBaseJson(string url)
+    public static async Task<UnityWebRequest> GetDataBaseJson(string url, LoadingIcon loader = null)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         
@@ -190,12 +190,15 @@ public class DataProvider : MonoBehaviour
                 return null;
             }
             
+            //Debug.Log($"Progress: {request.downloadProgress}");
+            loader?.Animate(request.downloadProgress);
+            
             await Task.Yield();
         }
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError(request.error + ", " + request.result);
+            Debug.LogError(request.error + ", " + request.result + ", " + url);
             return null;
         }
 

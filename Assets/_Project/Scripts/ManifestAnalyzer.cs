@@ -23,7 +23,7 @@ public class ManifestAnalyzer : MonoBehaviour
             return;
         }
 
-        AsyncAnalyzation(allManifests);
+        Task t = AsyncAnalyzation(allManifests);
     }
 
     private async Task AsyncAnalyzation(List<Manifest> allManifests)
