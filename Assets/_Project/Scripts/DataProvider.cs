@@ -13,7 +13,7 @@ using Debug = UnityEngine.Debug;
 
 public class DataProvider : MonoBehaviour
 {
-    public static readonly CancellationTokenSource ApplicationQuit = new CancellationTokenSource();
+    public static CancellationTokenSource ApplicationQuit;
     
     
     [SerializeField] private DatabaseSettings _settings;
@@ -29,6 +29,8 @@ public class DataProvider : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        ApplicationQuit = new CancellationTokenSource();
+
         AdditionalInfoManager.Parameter.Sessions.AddValue(1);
         LoadData();
     }
@@ -55,6 +57,7 @@ public class DataProvider : MonoBehaviour
         UnityWebRequest request = await GetDataBaseJson(Settings.RequestSettings.URL);
         if (request == null)
         {
+            if (DataProvider.ApplicationQuit.Token.IsCancellationRequested) return;
             Debug.LogError($"Request is null!");
             return;
         }
@@ -80,7 +83,7 @@ public class DataProvider : MonoBehaviour
         
         // report load time
         stopwatch.Stop();
-        AdditionalInfoManager.Parameter.DatabaseSize.SetValue((int)stopwatch.ElapsedMilliseconds);
+        AdditionalInfoManager.Parameter.DatabaseLoadTime.SetValue((int)stopwatch.ElapsedMilliseconds);
         
         // report manifests
         Debug.Log($"DataProvider -> Found {AllManifests.Count} coin manifests.");
@@ -122,13 +125,15 @@ public class DataProvider : MonoBehaviour
     }
     */
 
-    public async Task<CoinData> GetRandomCoinData()
+    public Manifest GetRandomManifest()
     {
-        // choose random manifest
-        Manifest m = AllManifests[Random.Range(0, AllManifests.Count)];
+        return AllManifests[Random.Range(0, AllManifests.Count)];
+    }
 
-        // deserialize manifest
-        UnityWebRequest request = await GetDataBaseJson(m.Id);
+    public async Task<CoinData> GetCoinData(Manifest m, LoadingIcon loader)
+    {
+        // deserialize OriginalManifest
+        UnityWebRequest request = await GetDataBaseJson(m.Id, loader, new Vector2(0f, 0.2f));
         if (request == null)
         {
             Debug.LogError("Request is null!");
@@ -155,14 +160,17 @@ public class DataProvider : MonoBehaviour
         string imageRes = Settings.ImageResolution.ToString();
 
         List<Texture2D> images = new List<Texture2D>();
-        foreach (Canvas cvs in mDeserialized.sequences[0].canvases)
+        for (int i = 0; i < mDeserialized.sequences[0].canvases.Count && i < 2; i++)
+            //foreach (Canvas cvs in mDeserialized.sequences[0].canvases)
         {
+            Canvas cvs = mDeserialized.sequences[0].canvases[i];
+            
             if (cvs?.images == null || cvs.images.Count <= 0 || cvs.images[0] == null) continue;
 
             //string imagePath = cvs.images[0].resource.service.Id + "/full/" + imageRes + "," + imageRes + "/0/default.jpg";
             string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},{imageRes}/0/default.jpg";
 
-            images.Add(await GetDatabaseTexture2D(imagePath));
+            images.Add(await GetDatabaseTexture2D(imagePath, loader, i == 0 ? new Vector2(0.2f, 0.6f) : new Vector2(0.6f, 1f)));
         }
 
         // no images
@@ -175,7 +183,7 @@ public class DataProvider : MonoBehaviour
         return new CoinData(mDeserialized, images[0], images[1], information.ToArray());
     }
 
-    public static async Task<UnityWebRequest> GetDataBaseJson(string url, LoadingIcon loader = null)
+    public static async Task<UnityWebRequest> GetDataBaseJson(string url, LoadingIcon loader = null, Vector2 progressRange = new Vector2())
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         
@@ -186,12 +194,11 @@ public class DataProvider : MonoBehaviour
         {
             if (ApplicationQuit.IsCancellationRequested)
             {
-                Debug.Log("Database loading process was stopped by the OnApplicationQuit Event!");
+                Debug.Log("GetDataBaseJson stopped: ApplicationQuit.Token has been cancelled!");
                 return null;
             }
             
-            //Debug.Log($"Progress: {request.downloadProgress}");
-            loader?.Animate(request.downloadProgress);
+            if(loader != null) loader.SetProgress(Mathf.Lerp(progressRange.x, progressRange.y, request.downloadProgress));
             
             await Task.Yield();
         }
@@ -206,7 +213,7 @@ public class DataProvider : MonoBehaviour
         //return request.downloadHandler.text;
     }
 
-    private async Task<Texture2D> GetDatabaseTexture2D(string url, bool log = false)
+    private async Task<Texture2D> GetDatabaseTexture2D(string url, LoadingIcon loader = null, Vector2 progressRange = new Vector2())
     {
         //Debug.Log($"GetDatabaseTexture2D({url})");
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
@@ -214,7 +221,14 @@ public class DataProvider : MonoBehaviour
 
         while (!request.isDone)
         {
-            if (ApplicationQuit.IsCancellationRequested) return null;
+            if (ApplicationQuit.IsCancellationRequested)
+            {
+                Debug.Log("Database loading process was stopped by the OnApplicationQuit Event!");
+                return null;
+            }
+
+            if (loader != null) loader.SetProgress(Mathf.Lerp(progressRange.x, progressRange.y, request.downloadProgress));
+            
             await Task.Yield();
         }
 
@@ -223,8 +237,7 @@ public class DataProvider : MonoBehaviour
             Debug.LogError(request.error + ", " + request.result);
             return null;
         }
-
-        if(log) Debug.Log($"Image downloaded: {request.downloadedBytes} bytes");
+        
         return DownloadHandlerTexture.GetContent(request);
     }
 }

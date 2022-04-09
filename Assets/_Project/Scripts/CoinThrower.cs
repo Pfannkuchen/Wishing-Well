@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Leipzig;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using Random = UnityEngine.Random;
 
 public class CoinThrower : MonoBehaviour
@@ -37,13 +40,20 @@ public class CoinThrower : MonoBehaviour
     private Vector2 TextDisplayPositionRangeY => _textDisplayPositionRangeY;
 
 
-    private List<Coin> _loadedCoins;
-    private List<Coin> LoadedCoins => _loadedCoins ??= new List<Coin>();
+    private Queue<Coin> _preloadedCoins;
+    private Queue<Coin> PreloadedCoins => _preloadedCoins ??= new Queue<Coin>();
+
+    private List<Coin> _visibleCoins;
+    private List<Coin> VisibleCoins => _visibleCoins ??= new List<Coin>();
 
     private List<TextDisplay> _loadedTextDisplays;
     private List<TextDisplay> LoadedTextDisplays => _loadedTextDisplays ??= new List<TextDisplay>();
 
     private bool _allowUserInteraction;
+    private int _coinIndex;
+
+
+    public bool CreateCoins { get; set; }
 
 
     private void Start()
@@ -56,39 +66,94 @@ public class CoinThrower : MonoBehaviour
         }
     }
 
+    private bool UserInteractionIsAllowed()
+    {
+        foreach(Coin coin in VisibleCoins)
+        {
+            if (coin == null) continue;
+
+            if (!coin.PreloadFinished) return false;
+        }
+
+        return true;
+    }
+
     public void ThrowCoin(Coin coin)
     {
-        if (!_allowUserInteraction) return;
+        if (!UserInteractionIsAllowed()) return;
 
         Debug.Log($"Throwing Coin: {coin.gameObject.name}");
 
         _allowUserInteraction = false;
 
-        foreach (Coin loadedCoin in LoadedCoins.Where(x => x != null))
+        foreach (Coin visibleCoin in VisibleCoins.Where(x => x != null))
         {
-            if (loadedCoin == coin)
+            if (visibleCoin == coin)
             {
                 AdditionalInfoManager.Parameter.CoinsThrown.AddValue(1);
-                PlayThrowAnimation(loadedCoin);
+                PlayThrowAnimation(visibleCoin);
             }
             else
             {
-                PlayDestroyAnimation(loadedCoin);
+                PlayDestroyAnimation(visibleCoin);
             }
         }
+        
+        VisibleCoins.Clear();
 
         Resources.UnloadUnusedAssets();
 
-        CreateNewCoins();
+        //CreateNewCoins();
+    }
+    
+    
+    #region MonoBehaviour
+    
 
-        // instead ShowPreloadedCoins();
-        // and when that is done (once preloading was done) do another PreloadCoins();
+    private void Update()
+    {
+        if (!CreateCoins) return;
+        
+        int coinPreloadCount = Settings.CoinSelectionCount * 2;
+        
+        //Debug.Log($"coinPreloadCount = {coinPreloadCount}, PreloadedCoins.Count = {PreloadedCoins.Count}, VisibleCoins.Count = {VisibleCoins.Count}");
+        
+        // more coins need to be preloaded
+        if (PreloadedCoins.Count < coinPreloadCount)
+        {
+            for (int i = PreloadedCoins.Count; i < coinPreloadCount; i++)
+            {
+                Coin preloadingCoin = InstantiateCoin();
+                preloadingCoin.Loader.Hide();
+                Task t = PreloadCoin(preloadingCoin);
+                PreloadedCoins.Enqueue(preloadingCoin);
+                
+                Debug.Log($"Preload {preloadingCoin}");
+            }
+        }
+        
+        // there are enough preloaded coins, and preloaded is needed
+        if (PreloadedCoins.Count >= Settings.CoinSelectionCount && VisibleCoins.Count <= 0)
+        {
+            for (int i = 0; i < Settings.CoinSelectionCount; i++)
+            {
+                Coin coin = PreloadedCoins.Dequeue();
+                
+                float coinPosX = Mathf.Lerp(CoinPositionRangeX.x, CoinPositionRangeX.y, (1f / (Settings.CoinSelectionCount - 1f)) * i);
+                Vector3 coinPosComposite = new Vector3(coinPosX, 0f, 0f);
+                coin.transform.position = coinPosComposite;
+
+                coin.Show();
+                VisibleCoins.Add(coin);
+            }
+        }
     }
 
+    #endregion
+    
+    [System.Obsolete]
     public async void CreateNewCoins()
     {
-        LoadedCoins.Clear();
-
         if (Settings == null || CoinPrefab == null)
         {
             Debug.LogError("Settings is null or incomplete!");
@@ -97,32 +162,99 @@ public class CoinThrower : MonoBehaviour
 
         for (int i = 0; i < Settings.CoinSelectionCount; i++)
         {
-            int attempts = 100;
+            Coin preloadingCoin = InstantiateCoin();
+            PreloadCoin(preloadingCoin);
+            
+            /*
+            float coinPosX = Mathf.Lerp(CoinPositionRangeX.x, CoinPositionRangeX.y, (1f / (Settings.CoinSelectionCount - 1f)) * i);
+            Vector3 coinPosComposite = new Vector3(coinPosX, 0f, 0f);
+            Coin newCoin = Instantiate(CoinPrefab, coinPosComposite, Quaternion.identity);
+            
+            int attempts = 0;
             CoinData randomCoinData = null;
-            while (randomCoinData == null && attempts > 0)
+            
+            while (randomCoinData == null && attempts < 100)
             {
+                Debug.Log($"{i}: CoinData loading attempt {attempts}.");
+                
                 if (DataProvider.ApplicationQuit.Token.IsCancellationRequested) return;
-                randomCoinData = await Provider.GetRandomCoinData();
-                attempts--;
+                randomCoinData = await Provider.GetRandomCoinData(newCoin.Loader);
+                attempts++;
             }
 
             if (randomCoinData == null) continue;
             if (DataProvider.ApplicationQuit.Token.IsCancellationRequested) return;
-
-            float coinPosX = Mathf.Lerp(CoinPositionRangeX.x, CoinPositionRangeX.y, (1f / (Settings.CoinSelectionCount - 1f)) * i);
-            Vector3 coinPosComposite = new Vector3(coinPosX, 0f, 0f);
-
-            Coin newCoin = Instantiate(CoinPrefab, coinPosComposite, Quaternion.identity);
-            newCoin.SetScale(Settings.CoinScale);
-            newCoin.SetCoinConnection(this, i);
-            newCoin.SetCoinData(randomCoinData);
-            newCoin.gameObject.name = $"Coin_{i}_{randomCoinData.information?[0]}";
-            LoadedCoins.Add(newCoin);
             
-            AdditionalInfoManager.Parameter.CoinsLoaded.AddValue(1);
+            newCoin.SetScale(Settings.CoinScale * randomCoinData.Diameter);
+            newCoin.SetReferences(this, i);
+            newCoin.SetCoinData(randomCoinData);
+            newCoin.gameObject.name = $"Coin_{i}_{randomCoinData.Information?[0]}";
+            newCoin.Loader.SetProgress(1f);
+            newCoin.Show();
+            */
         }
 
         _allowUserInteraction = true;
+    }
+
+    private Coin InstantiateCoin()
+    {
+        Coin newCoin = Instantiate(CoinPrefab);
+        newCoin.gameObject.name = "Coin_" + _coinIndex;
+        _coinIndex++;
+        newCoin.HideImmediately();
+
+        return newCoin;
+    }
+
+    private async Task PreloadCoin(Coin newCoin)
+    {
+        //float coinPosX = Mathf.Lerp(CoinPositionRangeX.x, CoinPositionRangeX.y, (1f / (Settings.CoinSelectionCount - 1f)) * i);
+        //Vector3 coinPosComposite = new Vector3(coinPosX, 0f, 0f);
+        //Coin newCoin = Instantiate(CoinPrefab, coinPosComposite, Quaternion.identity);
+
+        int attempts = 0;
+        CoinData randomCoinData = null;
+
+        while (randomCoinData == null && attempts < 100)
+        {
+            if (DataProvider.ApplicationQuit.Token.IsCancellationRequested)
+            {
+                Debug.Log("PreloadCoin stopped: ApplicationQuit.Token has been cancelled!");
+                return;
+            }
+
+            // choose random OriginalManifest
+            Manifest m = Provider.GetRandomManifest();
+            if (m == null)
+            {
+                Debug.LogError($"Manifest is null!");
+            }
+
+            randomCoinData = await Provider.GetCoinData(m, newCoin.Loader);
+
+            if (randomCoinData == null)
+            {
+                Debug.LogWarning($"Provider.GetCoinData() for {newCoin.gameObject.name} failed ({attempts}): {m.Id}");
+            }
+            else
+            {
+                Debug.Log($"Provider.GetCoinData() for {newCoin.gameObject.name} was successful ({attempts}): {m.Id}");
+            }
+
+            attempts++;
+        }
+
+        if (randomCoinData == null) return;
+        if (DataProvider.ApplicationQuit.Token.IsCancellationRequested) return;
+            
+        newCoin.SetScale(Settings.CoinScale * randomCoinData.Diameter);
+        newCoin.SetReferences(this);
+        newCoin.SetCoinData(randomCoinData);
+        newCoin.gameObject.name = $"Coin_{randomCoinData.Information?[0]}";
+        newCoin.Loader.SetProgress(1f);
+
+        AdditionalInfoManager.Parameter.CoinsLoaded.AddValue(1);
     }
 
     private async void PlayThrowAnimation(Coin coin)
@@ -198,9 +330,9 @@ public class CoinThrower : MonoBehaviour
         int metadataCount = Random.Range(Settings.MinMetadataDisplay, Settings.MaxMetadataDisplay + 1);
 
         // get all metadata
-        for (int i = 0; i < coin.Information.Length; i++)
+        for (int i = 0; i < coin.Data.Information.Length; i++)
         {
-            allMetadata.Add(coin.Information[i]);
+            allMetadata.Add(coin.Data.Information[i]);
         }
 
         // shuffle to randomize order
@@ -209,7 +341,7 @@ public class CoinThrower : MonoBehaviour
         int count = allMetadata.Count < metadataCount ? allMetadata.Count : metadataCount;
         //Debug.Log($"allMetadata.Count = {allMetadata.Count}, metadataCount = {metadataCount}, count = {count}");
 
-        // create metadata display with random max count or capped by number of metadata information
+        // create metadata display with random max count or capped by number of metadata Information
         for (int i = 0; i < count; i++)
         {
             TextDisplay hiddenDisplay = LoadedTextDisplays.Where(x => !x.IsVisible).First();

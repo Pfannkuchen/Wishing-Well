@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1100994439772388882}
   m_LocalRotation: {x: 0.70710707, y: -0, z: -0, w: 0.7071066}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3919112631626992734}
   - {fileID: 1100994441556331385}
@@ -48,16 +48,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _front: {fileID: 1497008112879907656}
   _back: {fileID: 1100994441556331386}
-  _debugManifestContent:
-    Context: 
-    Id: 
-    Type: 
-    label: 
-    metadata: []
-    sequences: []
-    license: 
-    requiredStatement: 
-    seeAlso: 
+  _hoverClips: []
+  _loaderPrefab: {fileID: 8213087173792840957, guid: fa787e787cdf6db489fd97850d626e87, type: 3}
+  _data:
+    FrontTex: {fileID: 0}
+    BackTex: {fileID: 0}
+    Diameter: 0
+    Weight: 0
+    CoinMat: 0
+    OriginalManifest:
+      Context: 
+      Id: 
+      Type: 
+      label: 
+      metadata: []
+      sequences: []
+      license: 
+      requiredStatement: 
+      seeAlso: 
 --- !u!135 &1100994439772388883
 SphereCollider:
   m_ObjectHideFlags: 0

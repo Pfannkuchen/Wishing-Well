@@ -33,7 +33,7 @@ public class ManifestAnalyzer : MonoBehaviour
         {
             count++;
 
-            // deserialize manifest
+            // deserialize OriginalManifest
             UnityWebRequest request = await DataProvider.GetDataBaseJson(m.Id);
             if (request == null) continue;
             

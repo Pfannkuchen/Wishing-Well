@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,12 +9,14 @@ public class AdditionalInfoInstance : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateContent();
+        Debug.Log("AdditionalInfoInstance.OnEnable()");
         AdditionalInfoManager.InfoUpdated += UpdateContent;
+        UpdateContent();
     }
 
     private void OnDisable()
     {
+        Debug.Log("AdditionalInfoInstance.OnDisable()");
         AdditionalInfoManager.InfoUpdated -= UpdateContent;
     }
 
@@ -33,7 +32,7 @@ public class AdditionalInfoInstance : MonoBehaviour
         s += "\n";
         s += "Datenbank-Größe: " + AdditionalInfoManager.Parameter.DatabaseSize.GetValue() + " kB" + "\n";
         s += "Datenbank-Ladezeit: " + AdditionalInfoManager.Parameter.DatabaseLoadTime.GetValue() + " ms" + "\n";
-        s += "Münzen-Größe: " + AdditionalInfoManager.Parameter.CoinManifests.GetValue() + "\n";
+        s += "Münzen: " + AdditionalInfoManager.Parameter.CoinManifests.GetValue() + "\n";
         s += "\n";
         s += "\n";
         s += "\n";
@@ -42,5 +41,7 @@ public class AdditionalInfoInstance : MonoBehaviour
         s += "Sitzungen: " + AdditionalInfoManager.Parameter.Sessions.GetValue() + "\n";
         s += "Generierte Münzen: " + AdditionalInfoManager.Parameter.CoinsLoaded.GetValue() + "\n";
         s += "Geworfene Münzen: " + AdditionalInfoManager.Parameter.CoinsThrown.GetValue() + "\n";
+
+        Text.text = s;
     }
 }

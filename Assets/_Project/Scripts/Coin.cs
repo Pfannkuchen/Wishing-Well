@@ -1,18 +1,37 @@
-using System;
-using Leipzig;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
-using Random = System.Random;
 
 public class Coin : MonoBehaviour
 {
+    private const float ScaleDuration = 1f;
+    
+    
     [SerializeField] private MeshRenderer _front;
     private MeshRenderer Front => _front;
     
     [SerializeField] private MeshRenderer _back;
     private MeshRenderer Back => _back;
+    
+    [SerializeField] private AudioClip[] _hoverClips;
+    private AudioClip[] HoverClips => _hoverClips;
+    
+    [SerializeField] private LoadingIcon _loaderPrefab;
+    private LoadingIcon LoaderPrefab => _loaderPrefab;
 
-    private string[] _information;
-    public string[] Information => _information ??= new string[]{};
+    private LoadingIcon _loader;
+    public LoadingIcon Loader
+    {
+        get
+        {
+            if (_loader == null)
+            {
+                _loader = Instantiate(LoaderPrefab);
+                _loader.gameObject.name = "Loader " + gameObject.name;
+            }
+            return _loader;
+        }
+    }
 
     private const float HoverSpeed = 12f;
     private float _idleSpeed = 1f;
@@ -22,9 +41,11 @@ public class Coin : MonoBehaviour
     private bool _hovering;
     private CoinThrower _thrower;
 
-    [SerializeField] private ManifestDeserialized _debugManifestContent;
+    [SerializeField] private CoinData _data;
+    public CoinData Data => _data;
 
-    public int Index { get; private set; }
+    private bool _preloadFinished;
+    public bool PreloadFinished => _preloadFinished;
 
     public void SetScale(float scale)
     {
@@ -32,24 +53,37 @@ public class Coin : MonoBehaviour
         if (Back != null) Back.transform.localScale = Vector3.one * scale;
     }
 
-    public void SetCoinConnection(CoinThrower thrower, int index)
+    public void SetReferences(CoinThrower thrower)
     {
         this._thrower = thrower;
-        this.Index = index;
     }
 
     public void SetCoinData(CoinData data)
     {
-        this._debugManifestContent = data.manifest;
-        
-        if(data.front == data.back) FlipBack(true);
-        
-        if (Front != null) Front.material.SetTexture("_BaseMap", data.front);
-        if (Back != null) Back.material.SetTexture("_BaseMap", data.back);
+        if (data == null)
+        {
+            Debug.LogError($"{gameObject.name} -> Coin.SetCoinData({data}) -> data is null!");
+            return;
+        }
+        _data = data;
 
-        this._information = data.information;
+        if(Data.FrontTex == Data.BackTex) FlipBack(true);
 
-        _idleSpeed = UnityEngine.Random.Range(IdleSpeedRange.x, IdleSpeedRange.y);
+        if (Front != null)
+        {
+            Front.material.SetTexture("_BaseMap", Data.FrontTex);
+            Front.gameObject.SetActive(true);
+        }
+
+        if (Back != null)
+        {
+            Back.material.SetTexture("_BaseMap", Data.BackTex);
+            Back.gameObject.SetActive(true);
+        }
+
+        _idleSpeed = Random.Range(IdleSpeedRange.x, IdleSpeedRange.y);
+
+        _preloadFinished = true;
     }
 
     private void FlipBack(bool flip)
@@ -67,15 +101,49 @@ public class Coin : MonoBehaviour
         Back.gameObject.layer = LayerMask.NameToLayer(underwater ? "Underwater" : "Default");
     }
 
+    public void HideImmediately()
+    {
+        transform.localScale = Vector3.one * 0f;
+    }
+
+    public void Show()
+    {
+        Debug.Log($"Show Coin: " + gameObject.name);
+        if(!PreloadFinished) Loader.Show();
+
+        ShowAnimation();
+    }
+
+    private async Task ShowAnimation()
+    {
+        float lerp = transform.localScale.x;
+        while (lerp <= 1f)
+        {
+            if (DataProvider.ApplicationQuit.IsCancellationRequested) return;
+            
+            if (_preloadFinished)
+            {
+                lerp = Mathf.Clamp(lerp + Time.deltaTime / ScaleDuration, 0f, 1f);
+            }
+
+            transform.localScale = Vector3.one * Easing.EaseInQuart(lerp);
+            await Task.Yield();
+        }
+    }
+
     private void Update()
     {
         float idleRotation = Mathf.Sin(Time.realtimeSinceStartup * _idleSpeed) * IdleAngle;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler((_hovering ? 90f : 270f) + idleRotation, 90f, 90f), Time.deltaTime * HoverSpeed);
+        
+        Loader.SetWorldPosition(transform.position);
     }
 
     private void OnMouseEnter()
     {
         _hovering = true;
+        
+        AudioPlayer.Instance.PlayRandomAudioClip(HoverClips, new Vector2(0.5f, 1f), new Vector2(0.9f, 1.1f));
     }
 
     private void OnMouseExit()

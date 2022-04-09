@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ApplicationSettings
   m_EditorClassIdentifier: 
   _coinSelectionCount: 5
-  _coinScale: 1
+  _coinScale: 0.7
   _metadataFadeInRange: {x: 1.5, y: 3}
   _metadataFadeOutRange: {x: 0.3, y: 0.7}
   _minMetadataDisplay: 2
