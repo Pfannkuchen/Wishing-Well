@@ -1,6 +1,4 @@
-﻿using System;
-using TMPro.EditorUtilities;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class LoadingIcon : MonoBehaviour
