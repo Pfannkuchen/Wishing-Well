@@ -1,9 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
-public class ToggleAudio : ToggleBase
+public class ToggleAudioEverything : ToggleBase
 {
     [SerializeField] private UserSettings _settings;
     private UserSettings Settings => _settings;
@@ -29,7 +27,7 @@ public class ToggleAudio : ToggleBase
 
     private void UpdateValue(bool value)
     {
-        Mixer.SetFloat(Parameter, Settings.AudioEverything ? 0f : -80f);
+        Mixer.SetFloat(Parameter, value ? 0f : -80f);
         UpdateCheckSprite(value);
     }
 }

@@ -147,18 +147,14 @@ public class DataProvider : MonoBehaviour
             Debug.LogError($"JSON could not be deserialized: {json}");
             return null;
         }
-
-        List<string> information = new List<string>();
-        foreach (Metadata meta in mDeserialized.metadata.Where(x => !string.IsNullOrEmpty(x.value)))
-        {
-            information.Add(meta.value);
-        }
-
-        if (mDeserialized.sequences == null || mDeserialized.sequences.Count <= 0 || mDeserialized.sequences[0] == null) return null;
-        if (mDeserialized.sequences[0].canvases == null || mDeserialized.sequences[0].canvases.Count <= 0) return null;
+        
+        CoinData newCoinData = new CoinData();
+        newCoinData.SetOriginalManifest(mDeserialized);
+        newCoinData.SetMetadata(mDeserialized.metadata.ToArray());
 
         string imageRes = Settings.ImageResolution.ToString();
-
+        if (mDeserialized.sequences == null || mDeserialized.sequences.Count <= 0 || mDeserialized.sequences[0] == null) return null;
+        if (mDeserialized.sequences[0].canvases == null || mDeserialized.sequences[0].canvases.Count <= 0) return null;
         List<Texture2D> images = new List<Texture2D>();
         for (int i = 0; i < mDeserialized.sequences[0].canvases.Count && i < 2; i++)
             //foreach (Canvas cvs in mDeserialized.sequences[0].canvases)
@@ -177,17 +173,19 @@ public class DataProvider : MonoBehaviour
         if (images.Count <= 0) return null;
 
         // one image
-        if (images.Count <= 1) return new CoinData(mDeserialized, images[0], images[0], information.ToArray());
+        else if (images.Count <= 1) newCoinData.SetTextures(images[0], images[0]);
 
         // two image
-        return new CoinData(mDeserialized, images[0], images[1], information.ToArray());
+        else newCoinData.SetTextures(images[0], images[1]);
+
+        return newCoinData;
     }
 
     public static async Task<UnityWebRequest> GetDataBaseJson(string url, LoadingIcon loader = null, Vector2 progressRange = new Vector2())
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         
-        //request.SetRequestHeader("Accept-Encoding", "gzip");
+        request.SetRequestHeader("Accept-Encoding", "gzip");
         request.SendWebRequest();
 
         while (!request.isDone)

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a87d25d5a4ceda4fa007e744238099e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: d46026d0813c9cc40bc7e830b5e4a0a7, type: 2}
   _front: {fileID: 1497008112879907656}
   _back: {fileID: 1100994441556331386}
   _hoverClips: []

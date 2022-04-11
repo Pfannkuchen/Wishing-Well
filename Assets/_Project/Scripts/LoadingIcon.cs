@@ -18,6 +18,7 @@ public class LoadingIcon : MonoBehaviour
     private void Start()
     {
         transform.SetParent(InterfaceManager.Instance.transform);
+        transform.localScale = Vector3.one;
     }
 
     private void Update()

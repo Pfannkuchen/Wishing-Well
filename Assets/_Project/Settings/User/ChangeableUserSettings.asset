@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9dd304ee044b51bdbfea4b85b5db99, type: 3}
   m_Name: ChangeableUserSettings
   m_EditorClassIdentifier: 
+  AudioEverything: 1
+  AudioMusic: 1
   TextDistortion: 1
   CoinAnimation: 1

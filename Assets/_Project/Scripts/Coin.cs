@@ -7,6 +7,9 @@ public class Coin : MonoBehaviour
     private const float ScaleDuration = 1f;
     
     
+    [SerializeField] private UserSettings _settings;
+    private UserSettings Settings => _settings;
+    
     [SerializeField] private MeshRenderer _front;
     private MeshRenderer Front => _front;
     
@@ -126,16 +129,23 @@ public class Coin : MonoBehaviour
                 lerp = Mathf.Clamp(lerp + Time.deltaTime / ScaleDuration, 0f, 1f);
             }
 
-            transform.localScale = Vector3.one * Easing.EaseInQuart(lerp);
+            transform.localScale = Vector3.one * Easing.EaseInOutQuint(lerp);
             await Task.Yield();
         }
     }
 
     private void Update()
     {
-        float idleRotation = Mathf.Sin(Time.realtimeSinceStartup * _idleSpeed) * IdleAngle;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler((_hovering ? 90f : 270f) + idleRotation, 90f, 90f), Time.deltaTime * HoverSpeed);
-        
+        if (Settings != null && !Settings.CoinAnimation)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler((_hovering ? 90f : 270f), 90f, 90f), Time.deltaTime * HoverSpeed);
+        }
+        else
+        {
+            float idleRotation = Mathf.Sin(Time.realtimeSinceStartup * _idleSpeed) * IdleAngle;
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler((_hovering ? 90f : 270f) + idleRotation, 90f, 90f), Time.deltaTime * HoverSpeed);
+        }
+
         Loader.SetWorldPosition(transform.position);
     }
 
