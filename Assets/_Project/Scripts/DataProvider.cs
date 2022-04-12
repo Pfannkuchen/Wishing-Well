@@ -19,9 +19,17 @@ public class DataProvider : MonoBehaviour
     [SerializeField] private DatabaseSettings _settings;
     private DatabaseSettings Settings => _settings;
     
+    [SerializeField] private GameObject _messageLoadingDatabase;
+    private GameObject MessageLoadingDatabase => _messageLoadingDatabase;
+    
+    [SerializeField] private GameObject _messageCouldNotLoadDatabase;
+    private GameObject MessageCouldNotLoadDatabase => _messageCouldNotLoadDatabase;
+    
+    [SerializeField] private GameObject _messageCouldNotDeserializeDatabase;
+    private GameObject MessageCouldNotDeserializeDatabase => _messageCouldNotDeserializeDatabase;
+    
     [SerializeField] private UnityEvent<List<Manifest>> _databaseLoaded;
     
-
     private List<Manifest> _allManifests;
     private List<Manifest> AllManifests => _allManifests ??= new List<Manifest>();
 
@@ -45,6 +53,8 @@ public class DataProvider : MonoBehaviour
         Stopwatch stopwatch = Stopwatch.StartNew(); 
         
         Debug.Log("DataProvider -> LoadData()");
+        
+        MessageLoadingDatabase.SetActive(true);
 
         if (Settings == null || Settings.RequestSettings == null)
         {
@@ -55,19 +65,23 @@ public class DataProvider : MonoBehaviour
         AllManifests.Clear();
 
         UnityWebRequest request = await GetDataBaseJson(Settings.RequestSettings.URL);
+        MessageLoadingDatabase.SetActive(false);
+        
         if (request == null)
         {
             if (DataProvider.ApplicationQuit.Token.IsCancellationRequested) return;
-            Debug.LogError($"Request is null!");
+            MessageCouldNotLoadDatabase.SetActive(true);
+            Debug.LogError($"Could not load database root json!");
             return;
         }
 
         string json = request.downloadHandler.text;
         Root databaseRoot = JsonConvert.DeserializeObject<Root>(json);
-
+        
         if (databaseRoot == null)
         {
             Debug.LogError("Found no Root in database!");
+            MessageCouldNotDeserializeDatabase.SetActive(true);
             return;
         }
 
