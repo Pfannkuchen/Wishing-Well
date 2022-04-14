@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, IPreloadable
 {
     private const float ScaleDuration = 1f;
     
@@ -50,10 +49,19 @@ public class Coin : MonoBehaviour
     private bool _preloadFinished;
     public bool PreloadFinished => _preloadFinished;
 
-    public void SetScale(float scale)
+    public void SetScale(float scale, float texturePixelScale)
     {
-        if (Front != null) Front.transform.localScale = Vector3.one * scale;
-        if (Back != null) Back.transform.localScale = Vector3.one * scale;
+        Vector3 frontPixelScale = Data.FrontTex == null
+            ? Vector3.one
+            : new Vector3(Data.FrontTex.width, Data.FrontTex.height, 1f);
+        Vector2 frontNormalizedScale = AspectHelper.GetNormalizedScale(texturePixelScale, frontPixelScale);
+        Front.transform.localScale = frontNormalizedScale * scale;
+        
+        Vector3 backPixelScale = Data.BackTex == null
+            ? Vector3.one
+            : new Vector3(Data.BackTex.width, Data.BackTex.height, 1f);
+        Vector2 backNormalizedScale = AspectHelper.GetNormalizedScale(texturePixelScale, backPixelScale);
+        Back.transform.localScale = backNormalizedScale * scale;
     }
 
     public void SetReferences(CoinThrower thrower)

@@ -17,7 +17,7 @@ public class DataProvider : MonoBehaviour
     
     
     [SerializeField] private DatabaseSettings _settings;
-    private DatabaseSettings Settings => _settings;
+    public DatabaseSettings Settings => _settings;
     
     [SerializeField] private GameObject _messageLoadingDatabase;
     private GameObject MessageLoadingDatabase => _messageLoadingDatabase;
@@ -176,11 +176,17 @@ public class DataProvider : MonoBehaviour
             Canvas cvs = mDeserialized.sequences[0].canvases[i];
             
             if (cvs?.images == null || cvs.images.Count <= 0 || cvs.images[0] == null) continue;
+            
+            // stretch width and height to a square
+            //string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},{imageRes}/0/default.jpg";
+            
+            // get automatically scaled based on width
+            string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},0/0/default.jpg";
 
-            //string imagePath = cvs.images[0].resource.service.Id + "/full/" + imageRes + "," + imageRes + "/0/default.jpg";
-            string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},{imageRes}/0/default.jpg";
+            Texture2D downloadedImage = await GetDatabaseTexture2D(imagePath, loader,
+                i == 0 ? new Vector2(0.2f, 0.6f) : new Vector2(0.6f, 1f));
 
-            images.Add(await GetDatabaseTexture2D(imagePath, loader, i == 0 ? new Vector2(0.2f, 0.6f) : new Vector2(0.6f, 1f)));
+            if (downloadedImage != null) images.Add(downloadedImage);
         }
 
         // no images

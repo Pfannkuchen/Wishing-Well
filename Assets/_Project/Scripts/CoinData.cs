@@ -9,35 +9,31 @@ public class CoinData
     public Texture2D FrontTex;
     public Texture2D BackTex;
 
-    private string[] _information;
-    public string[] Information
-    {
-        get => _information ??= new string[] { };
-        set => _information = value;
-    }
-
+    public string[] Information;
     public float DiameterMM;
     public float Diameter => Mathf.Clamp(DiameterMM / 20f, 0.3f, 1.2f);
     public float Weight;
     public CoinMaterial CoinMat;
+    
     public ManifestDeserialized OriginalManifest;
 
+    
     public void SetOriginalManifest(ManifestDeserialized originalManifest)
     {
-        this.OriginalManifest = originalManifest;
+        OriginalManifest = originalManifest;
     }
 
     public void SetTextures(Texture2D frontTex, Texture2D backTex)
     {
-        this.FrontTex = frontTex;
-        this.BackTex = backTex;
+        FrontTex = frontTex;
+        BackTex = backTex;
     }
 
-    public void SetMetadata(Leipzig.Metadata[] metadata)
+    public void SetMetadata(Metadata[] metadata)
     {
         List<string> i = new List<string>();
 
-        foreach (Leipzig.Metadata md in metadata)
+        foreach (Metadata md in metadata)
         {
             if (string.IsNullOrEmpty(md.label)) continue;
 
@@ -60,11 +56,11 @@ public class CoinData
             }
         }
 
-        this.Information = i.ToArray();
+        Information = i.ToArray();
     }
 
     private void SetMaterial(string materialIdentifier)
     {
-        this.CoinMat = CoinMaterial.Default;
+        CoinMat = CoinMaterial.Default;
     }
 }

@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class CoinThrower : MonoBehaviour
 {
     [SerializeField] private ApplicationSettings _settings;
-    private ApplicationSettings Settings => _settings;
+    public ApplicationSettings Settings => _settings;
 
     [SerializeField] private DataProvider _provider;
     private DataProvider Provider => _provider;
@@ -248,9 +248,10 @@ public class CoinThrower : MonoBehaviour
         if (randomCoinData == null) return;
         if (DataProvider.ApplicationQuit.Token.IsCancellationRequested) return;
             
-        newCoin.SetScale(Settings.CoinScale * randomCoinData.Diameter);
+        
         newCoin.SetReferences(this);
         newCoin.SetCoinData(randomCoinData);
+        newCoin.SetScale(Settings.CoinScale * randomCoinData.Diameter, Provider.Settings.ImageResolution);
         newCoin.gameObject.name = $"Coin_{randomCoinData.Information?[0]}";
         newCoin.Loader.SetProgress(1f);
 
