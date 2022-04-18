@@ -45,6 +45,12 @@ public class CoinData
                 case "diameter (mm)":
                     float.TryParse(md.value, out DiameterMM);
                     break;
+                case "width (mm)":
+                    float.TryParse(md.value, out DiameterMM);
+                    break;
+                case "height (mm)":
+                    float.TryParse(md.value, out DiameterMM);
+                    break;
                 case "Material":
                     SetMaterial(md.value);
                     break;

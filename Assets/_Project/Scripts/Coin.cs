@@ -4,20 +4,20 @@ using UnityEngine;
 public class Coin : MonoBehaviour, IPreloadable
 {
     private const float ScaleDuration = 1f;
-    
-    
+
+
     [SerializeField] private UserSettings _settings;
     private UserSettings Settings => _settings;
-    
+
     [SerializeField] private MeshRenderer _front;
     private MeshRenderer Front => _front;
-    
+
     [SerializeField] private MeshRenderer _back;
     private MeshRenderer Back => _back;
-    
+
     [SerializeField] private AudioClip[] _hoverClips;
     private AudioClip[] HoverClips => _hoverClips;
-    
+
     [SerializeField] private LoadingIcon _loaderPrefab;
     private LoadingIcon LoaderPrefab => _loaderPrefab;
 
@@ -31,6 +31,7 @@ public class Coin : MonoBehaviour, IPreloadable
                 _loader = Instantiate(LoaderPrefab);
                 _loader.gameObject.name = "Loader " + gameObject.name;
             }
+
             return _loader;
         }
     }
@@ -39,7 +40,7 @@ public class Coin : MonoBehaviour, IPreloadable
     private float _idleSpeed = 1f;
     private static Vector2 IdleSpeedRange => new Vector2(0.8f, 2.3f);
     private const float IdleAngle = 15f;
-    
+
     private bool _hovering;
     private CoinThrower _thrower;
 
@@ -51,17 +52,17 @@ public class Coin : MonoBehaviour, IPreloadable
 
     public void SetScale(float scale, float texturePixelScale)
     {
-        Vector3 frontPixelScale = Data.FrontTex == null
-            ? Vector3.one
-            : new Vector3(Data.FrontTex.width, Data.FrontTex.height, 1f);
+        Vector2 frontPixelScale = Data.FrontTex == null
+            ? Vector2.one
+            : new Vector2(Data.FrontTex.width, Data.FrontTex.height);
         Vector2 frontNormalizedScale = AspectHelper.GetNormalizedScale(texturePixelScale, frontPixelScale);
-        Front.transform.localScale = frontNormalizedScale * scale;
-        
-        Vector3 backPixelScale = Data.BackTex == null
-            ? Vector3.one
-            : new Vector3(Data.BackTex.width, Data.BackTex.height, 1f);
+        Front.transform.localScale = frontNormalizedScale.ToVector3WithZ(1f) * scale;
+
+        Vector2 backPixelScale = Data.BackTex == null
+            ? Vector2.one
+            : new Vector2(Data.BackTex.width, Data.BackTex.height);
         Vector2 backNormalizedScale = AspectHelper.GetNormalizedScale(texturePixelScale, backPixelScale);
-        Back.transform.localScale = backNormalizedScale * scale;
+        Back.transform.localScale = backNormalizedScale.ToVector3WithZ(1f) * scale;
     }
 
     public void SetReferences(CoinThrower thrower)
@@ -76,22 +77,17 @@ public class Coin : MonoBehaviour, IPreloadable
             Debug.LogError($"{gameObject.name} -> Coin.SetCoinData({data}) -> data is null!");
             return;
         }
+
         _data = data;
 
-        if(Data.FrontTex == Data.BackTex) FlipBack(true);
+        if (Data.FrontTex == Data.BackTex) FlipBack(true);
 
-        if (Front != null)
-        {
-            Front.material.SetTexture("_BaseMap", Data.FrontTex);
-            Front.gameObject.SetActive(true);
-        }
+        Front.material.SetTexture("_BaseMap", Data.FrontTex);
+        Front.gameObject.SetActive(true);
 
-        if (Back != null)
-        {
-            Back.material.SetTexture("_BaseMap", Data.BackTex);
-            Back.gameObject.SetActive(true);
-        }
-
+        Back.material.SetTexture("_BaseMap", Data.BackTex);
+        Back.gameObject.SetActive(true);
+        
         _idleSpeed = Random.Range(IdleSpeedRange.x, IdleSpeedRange.y);
 
         _preloadFinished = true;
@@ -100,7 +96,7 @@ public class Coin : MonoBehaviour, IPreloadable
     private void FlipBack(bool flip)
     {
         if (Back == null) return;
-            
+
         var scale = Back.transform.localScale;
         scale.x *= flip ? -1f : 1f;
         Back.transform.localScale = scale;
@@ -119,8 +115,8 @@ public class Coin : MonoBehaviour, IPreloadable
 
     public void Show()
     {
-        Debug.Log($"Show Coin: " + gameObject.name);
-        if(!PreloadFinished) Loader.Show();
+        //Debug.Log($"Show Coin: " + gameObject.name);
+        if (!PreloadFinished) Loader.Show();
 
         ShowAnimation();
     }
@@ -131,7 +127,7 @@ public class Coin : MonoBehaviour, IPreloadable
         while (lerp <= 1f)
         {
             if (DataProvider.ApplicationQuit.IsCancellationRequested) return;
-            
+
             if (_preloadFinished)
             {
                 lerp = Mathf.Clamp(lerp + Time.deltaTime / ScaleDuration, 0f, 1f);
@@ -160,7 +156,7 @@ public class Coin : MonoBehaviour, IPreloadable
     private void OnMouseEnter()
     {
         _hovering = true;
-        
+
         AudioPlayer.Instance.PlayRandomAudioClip(HoverClips, new Vector2(0.5f, 1f), new Vector2(0.9f, 1.1f));
     }
 
@@ -171,7 +167,7 @@ public class Coin : MonoBehaviour, IPreloadable
 
     private void OnMouseDown()
     {
-        if(_thrower != null) _thrower.ThrowCoin(this);
+        if (_thrower != null) _thrower.ThrowCoin(this);
     }
 
     public void Deactivate()

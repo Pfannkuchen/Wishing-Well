@@ -128,7 +128,7 @@ public class CoinThrower : MonoBehaviour
                 Task t = PreloadCoin(preloadingCoin);
                 PreloadedCoins.Enqueue(preloadingCoin);
                 
-                Debug.Log($"Preload {preloadingCoin}");
+                //Debug.Log($"Preload {preloadingCoin}");
             }
         }
         
@@ -239,7 +239,7 @@ public class CoinThrower : MonoBehaviour
             }
             else
             {
-                Debug.Log($"Provider.GetCoinData() for {newCoin.gameObject.name} was successful ({attempts}): {m.Id}");
+                //Debug.Log($"Provider.GetCoinData() for {newCoin.gameObject.name} was successful ({attempts}): {m.Id}");
             }
 
             attempts++;

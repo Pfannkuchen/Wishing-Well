@@ -553,7 +553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &160797997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4961,12 +4961,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b><u>Datengeber</u></b>\n\nLeander Seige, Universit\xE4tsbibliothek Leipzig\nTeam
-    von <i>Coding Da Vinci</i> (2022)\n\n\n\n<b><u>Entwicklung</u></b>\n\nJasper
-    Meiners, Topicbird\n\n\n\nDieses Projekt ist <i>Open Source</i> und wurde mit
+  m_text: "<b><u>Entwicklung</u></b>\n\nJasper Meiners, Topicbird\n\n\n<b><u>Datengeber</u></b>\n\nLeander
+    Seige, Universit\xE4tsbibliothek Leipzig\nTeam von <i>Coding Da Vinci</i> (2022)\n\n\n\nDieses
+    Projekt ist <i>Open Source</i> nach CC BY 4.0 (Jasper Meiners) und wurde mit
     der <i>Unity Game Engine</i> erstellt. Alle zur Kompilierung ben\xF6tigten Projektdaten
-    befinden sich auf <i>Github</i>. Es wurden UI-Elemente von <i>Kenney Assets</i>
-    verwendet."
+    befinden sich auf <i>Github</i>. \n\nEs wurden UI-Elemente von <i>Kenney Assets</i>
+    verwendet. Der Wasser-Shader geh\xF6rt zum Projekt <i>Stylized Water For URP</i>
+    von Alexander Ameye."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

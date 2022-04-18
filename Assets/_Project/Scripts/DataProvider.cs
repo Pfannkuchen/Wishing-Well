@@ -181,7 +181,7 @@ public class DataProvider : MonoBehaviour
             //string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},{imageRes}/0/default.jpg";
             
             // get automatically scaled based on width
-            string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},0/0/default.jpg";
+            string imagePath = $"{cvs.images[0].resource.service.Id}/full/{imageRes},/0/default.jpg";
 
             Texture2D downloadedImage = await GetDatabaseTexture2D(imagePath, loader,
                 i == 0 ? new Vector2(0.2f, 0.6f) : new Vector2(0.6f, 1f));
@@ -193,7 +193,7 @@ public class DataProvider : MonoBehaviour
         if (images.Count <= 0) return null;
 
         // one image
-        else if (images.Count <= 1) newCoinData.SetTextures(images[0], images[0]);
+        if (images.Count <= 1) newCoinData.SetTextures(images[0], images[0]);
 
         // two image
         else newCoinData.SetTextures(images[0], images[1]);
