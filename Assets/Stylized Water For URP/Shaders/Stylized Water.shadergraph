@@ -615,6 +615,9 @@
         },
         {
             "m_Id": "71826e02b273449bbbf9dec6fcaedb99"
+        },
+        {
+            "m_Id": "8b4dc9d1ded1484f928989f5ebce1096"
         }
     ],
     "m_GroupDatas": [
@@ -751,20 +754,6 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "1b32cd4b7cd83b888bc7d5fbe042df01"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "094441bcc9d7838286839f46aac7d6cb"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
                     "m_Id": "60807564def80286a9349aaa038934ff"
                 },
                 "m_SlotId": 615844759
@@ -782,6 +771,20 @@
                     "m_Id": "76089dfc537aa08db4cd7986965ee317"
                 },
                 "m_SlotId": 129944490
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "094441bcc9d7838286839f46aac7d6cb"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "8b4dc9d1ded1484f928989f5ebce1096"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -1748,6 +1751,20 @@
                     "m_Id": "165d8f047796ab8e9037ff0bff89fb85"
                 },
                 "m_SlotId": -307601877
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "8b4dc9d1ded1484f928989f5ebce1096"
+                },
+                "m_SlotId": 1
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "1b32cd4b7cd83b888bc7d5fbe042df01"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -3259,6 +3276,8 @@
         "m_GuidSerialized": "d28fb17d-5752-430f-a7c4-4cf8390fa9ae"
     },
     "m_Name": "Hardness",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_9B37E8F",
     "m_OverrideReferenceName": "_LightingHardness",
     "m_GeneratePropertyBlock": true,
@@ -3282,6 +3301,8 @@
         "m_GuidSerialized": "8796ad00-6aa0-433e-9960-30112cf64182"
     },
     "m_Name": "Reflection Strength",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_B222C9EC",
     "m_OverrideReferenceName": "_PlanarReflectionStrength",
     "m_GeneratePropertyBlock": true,
@@ -3421,6 +3442,8 @@
         "m_GuidSerialized": "900875c8-c160-49a3-a0ed-2b6537cf58c8"
     },
     "m_Name": "Intersection Water Blend",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_4A7942F8",
     "m_OverrideReferenceName": "_IntersectionWaterBlend",
     "m_GeneratePropertyBlock": true,
@@ -3552,6 +3575,8 @@
         "m_GuidSerialized": "07a971d1-3c1a-4994-9d80-af9e9563b911"
     },
     "m_Name": "Intersection Foam Sampling",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector2_B7EC9465",
     "m_OverrideReferenceName": "_IntersectionFoamSampling",
     "m_GeneratePropertyBlock": true,
@@ -3908,6 +3933,8 @@
         "m_GuidSerialized": "20045afb-6d6d-409d-8a67-c28ad595796d"
     },
     "m_Name": "Surface Foam Shadow Projection",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_5B068BB9",
     "m_OverrideReferenceName": "_SurfaceFoamShadowProjection",
     "m_GeneratePropertyBlock": true,
@@ -4556,6 +4583,8 @@
         "m_GuidSerialized": "409ab8e9-dc3c-4f1e-9672-eda379d1f2c5"
     },
     "m_Name": "Surface Foam Color 2",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_F4E4560A",
     "m_OverrideReferenceName": "_SurfaceFoamColor2",
     "m_GeneratePropertyBlock": true,
@@ -4641,6 +4670,8 @@
         "m_GuidSerialized": "aaa044e7-d058-46dc-91bf-28c5aa0086f3"
     },
     "m_Name": "Intersection Foam Blend",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_6D528302",
     "m_OverrideReferenceName": "_IntersectionFoamBlend",
     "m_GeneratePropertyBlock": true,
@@ -4664,6 +4695,8 @@
         "m_GuidSerialized": "496a1742-ba03-40a6-b477-ab10c9b6e797"
     },
     "m_Name": "Smoothness",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_45AA6D67",
     "m_OverrideReferenceName": "_LightingSmoothness",
     "m_GeneratePropertyBlock": true,
@@ -4765,6 +4798,8 @@
         "m_GuidSerialized": "7d351f20-f790-4331-8bea-6820a52496bf"
     },
     "m_Name": "Intersection Foam Shadow Projection",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_BBF82B7",
     "m_OverrideReferenceName": "_IntersectionFoamShadowProjection",
     "m_GeneratePropertyBlock": true,
@@ -5969,6 +6004,8 @@
         "m_GuidSerialized": "f08efaa8-fa4f-48da-babf-f7e19e486fd6"
     },
     "m_Name": "Horizon Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_B8E86FF7",
     "m_OverrideReferenceName": "_WaterColorHorizon",
     "m_GeneratePropertyBlock": true,
@@ -6010,13 +6047,15 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
     "m_ObjectId": "3c0cde8f97d244d1a36b5d27b5b33079",
     "m_Guid": {
         "m_GuidSerialized": "af1bc353-1a3b-44c1-9af3-aae2c9f6caf4"
     },
     "m_Name": "Shore Movement",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "BOOLEAN_76DC31A3_ON",
     "m_OverrideReferenceName": "SHORE_MOVEMENT_ON",
     "m_GeneratePropertyBlock": true,
@@ -6377,6 +6416,8 @@
         "m_GuidSerialized": "d2c17741-e569-49ba-9ddb-b970fdfe49bc"
     },
     "m_Name": "Intersection Foam Movement",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector2_A904DEC0",
     "m_OverrideReferenceName": "_IntersectionFoamMovement",
     "m_GeneratePropertyBlock": true,
@@ -6494,6 +6535,8 @@
         "m_GuidSerialized": "e947753d-c789-42d3-8baf-7addbdca8a25"
     },
     "m_Name": "Caustics Speed",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_6A974307",
     "m_OverrideReferenceName": "_CausticsSpeed",
     "m_GeneratePropertyBlock": true,
@@ -6783,6 +6826,8 @@
         "m_GuidSerialized": "ce59ae89-1f17-4b73-a9be-25dc8832de0b"
     },
     "m_Name": "Caustics Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_C077338",
     "m_OverrideReferenceName": "_CausticsScale",
     "m_GeneratePropertyBlock": true,
@@ -7020,13 +7065,15 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
     "m_ObjectId": "4d78e178010e402789548100a677df90",
     "m_Guid": {
         "m_GuidSerialized": "400035df-5902-40ee-9143-cb604be771af"
     },
     "m_Name": "Surface Foam",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "BOOLEAN_919D4333_ON",
     "m_OverrideReferenceName": "SURFACE_FOAM_ON",
     "m_GeneratePropertyBlock": true,
@@ -7365,6 +7412,8 @@
         "m_GuidSerialized": "bb6e7c2b-314f-4478-bd45-def968885649"
     },
     "m_Name": "Underwater Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_524B7953",
     "m_OverrideReferenceName": "_WaterColorUnderwater",
     "m_GeneratePropertyBlock": true,
@@ -7622,6 +7671,8 @@
         "m_GuidSerialized": "360b5cc5-53a6-4cfb-8e71-7f951bb7e97b"
     },
     "m_Name": "Wave Visuals",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector3_10C2173B",
     "m_OverrideReferenceName": "_WaveVisuals",
     "m_GeneratePropertyBlock": true,
@@ -7871,6 +7922,8 @@
         "m_GuidSerialized": "86c281a9-5c82-4cca-81d7-f07e13356819"
     },
     "m_Name": "Shore Fade",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_6DA08EC7",
     "m_OverrideReferenceName": "_ShoreFade",
     "m_GeneratePropertyBlock": true,
@@ -8220,6 +8273,8 @@
         "m_GuidSerialized": "cb21e522-2e14-4ab2-a9da-116db88d881e"
     },
     "m_Name": "Normals Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_F4E7DADD",
     "m_OverrideReferenceName": "_NormalsTexture",
     "m_GeneratePropertyBlock": true,
@@ -8332,6 +8387,8 @@
         "m_GuidSerialized": "4d9f88cd-5b53-4074-87d2-c8724f608e6a"
     },
     "m_Name": "Gradient Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_D7706A3E",
     "m_OverrideReferenceName": "_WaterColorGradientTexture",
     "m_GeneratePropertyBlock": true,
@@ -9087,13 +9144,15 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
     "m_ObjectId": "737470bca3b4499591c396af86f3bc58",
     "m_Guid": {
         "m_GuidSerialized": "fe610c64-c645-43ae-b20c-978aee24edd2"
     },
     "m_Name": "World Space",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "BOOLEAN_3A4000A6_ON",
     "m_OverrideReferenceName": "WORLD_SPACE_UV_ON",
     "m_GeneratePropertyBlock": true,
@@ -9154,6 +9213,8 @@
         "m_GuidSerialized": "23ecd71c-eb7e-4c09-a43e-1acbbffe0220"
     },
     "m_Name": "Diffuse",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_20F913A",
     "m_OverrideReferenceName": "_LightingDiffuseColor",
     "m_GeneratePropertyBlock": true,
@@ -9235,13 +9296,15 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
     "m_ObjectId": "766fc33d7bb149918fe8569912b092e5",
     "m_Guid": {
         "m_GuidSerialized": "eda8fe0b-f0ad-42c0-ac3c-d2645ceb0e2d"
     },
     "m_Name": "Lighting",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "BOOLEAN_149F2224_ON",
     "m_OverrideReferenceName": "WATER_LIGHTING_ON",
     "m_GeneratePropertyBlock": true,
@@ -9479,6 +9542,8 @@
         "m_GuidSerialized": "2db69963-1219-4d6f-ad51-5b5895c73049"
     },
     "m_Name": "Caustics RGB Split",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_3FCD0CB6",
     "m_OverrideReferenceName": "_CausticsSplit",
     "m_GeneratePropertyBlock": true,
@@ -9622,6 +9687,8 @@
         "m_GuidSerialized": "fa401d26-16b7-42e1-9c4a-d615279fa2a1"
     },
     "m_Name": "Caustics Strength",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_50C36BF1",
     "m_OverrideReferenceName": "_CausticsStrength",
     "m_GeneratePropertyBlock": true,
@@ -9721,6 +9788,8 @@
         "m_GuidSerialized": "07a451e5-cb1a-4460-9bbe-4c2641e90a5d"
     },
     "m_Name": "Shore Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_4F81033E",
     "m_OverrideReferenceName": "_ShoreColor",
     "m_GeneratePropertyBlock": true,
@@ -9804,6 +9873,8 @@
         "m_GuidSerialized": "ce65e01f-1326-4869-9af6-4f07673caf51"
     },
     "m_Name": "Shore Depth",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_6969FAD6",
     "m_OverrideReferenceName": "_ShoreDepth",
     "m_GeneratePropertyBlock": true,
@@ -10487,6 +10558,8 @@
         "m_GuidSerialized": "ee0a1a4e-4e30-47e4-bdbe-73d6f019f92d"
     },
     "m_Name": "Shadow Strength",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_9C45BA4B",
     "m_OverrideReferenceName": "_FoamShadowStrength",
     "m_GeneratePropertyBlock": true,
@@ -10613,6 +10686,41 @@
         "e31": 0.0,
         "e32": 0.0,
         "e33": 1.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.RedirectNodeData",
+    "m_ObjectId": "8b4dc9d1ded1484f928989f5ebce1096",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Redirect Node",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -2925.0,
+            "y": 696.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "ccc314f5ba3b4a85a038e209cbf6055d"
+        },
+        {
+            "m_Id": "fdec741ff8864445828151a10f395cd8"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
     }
 }
 
@@ -11066,6 +11174,8 @@
         "m_GuidSerialized": "1d5c7e38-b9e7-4a71-b9c6-fbd6fef04a93"
     },
     "m_Name": "Shore Foam Breakup Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_607AC83D",
     "m_OverrideReferenceName": "_ShoreFoamBreakupScale",
     "m_GeneratePropertyBlock": true,
@@ -11100,6 +11210,8 @@
         "m_GuidSerialized": "929caee6-4421-4e79-ba42-f01b7b1c71d3"
     },
     "m_Name": "Shallow Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_75B01236",
     "m_OverrideReferenceName": "_WaterColorShallow",
     "m_GeneratePropertyBlock": true,
@@ -11339,6 +11451,8 @@
         "m_GuidSerialized": "68545e49-b611-4336-b5f6-b83fcc6875c9"
     },
     "m_Name": "Shore Foam Breakup Strength",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_1D6551A3",
     "m_OverrideReferenceName": "_ShoreFoamBreakupStrength",
     "m_GeneratePropertyBlock": true,
@@ -11448,6 +11562,8 @@
         "m_GuidSerialized": "c1f72311-f377-497e-a3aa-a225e55fb2d1"
     },
     "m_Name": "Height Mask Smoothness",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_B5E22E59",
     "m_OverrideReferenceName": "_SurfaceFoamHeightMaskSmoothness",
     "m_GeneratePropertyBlock": true,
@@ -11506,6 +11622,8 @@
         "m_GuidSerialized": "4bf15df9-1d78-481c-a9a9-a6598afae3dc"
     },
     "m_Name": "Normals Strength",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_9BA0D6F0",
     "m_OverrideReferenceName": "_NormalsStrength",
     "m_GeneratePropertyBlock": true,
@@ -11763,13 +11881,15 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
     "m_ObjectId": "9e24c1458f9e4df6b03ff716f016c91b",
     "m_Guid": {
         "m_GuidSerialized": "a4465858-f547-497b-9514-606e747e887c"
     },
     "m_Name": "Intersection Effects",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "BOOLEAN_BDE63F26_ON",
     "m_OverrideReferenceName": "INTERSECTION_EFFECTS_ON",
     "m_GeneratePropertyBlock": true,
@@ -11782,13 +11902,15 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
     "m_ObjectId": "9e72d0adbc164e6983651bceec3dfea9",
     "m_Guid": {
         "m_GuidSerialized": "764151da-c4dd-4e18-b889-82c139d9b4dd"
     },
     "m_Name": "Foam Shadows",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "BOOLEAN_B9F7F266_ON",
     "m_OverrideReferenceName": "FOAM_SHADOWS_ON",
     "m_GeneratePropertyBlock": true,
@@ -11994,6 +12116,8 @@
         "m_GuidSerialized": "bec7beca-521c-446c-859d-a7bb31a7ae88"
     },
     "m_Name": "Intersection Depth",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_4AA7E2A0",
     "m_OverrideReferenceName": "_IntersectionFoamDepth",
     "m_GeneratePropertyBlock": true,
@@ -12495,6 +12619,8 @@
         "m_GuidSerialized": "e5684edb-2298-4d8f-934c-677c98415db4"
     },
     "m_Name": "Reflection Fresnel",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_D5BC8D45",
     "m_OverrideReferenceName": "_PlanarReflectionFresnel",
     "m_GeneratePropertyBlock": true,
@@ -12584,6 +12710,8 @@
         "m_GuidSerialized": "57aadaac-9a8f-4e70-8302-1e814ac95229"
     },
     "m_Name": "Surface Foam Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_4658998",
     "m_OverrideReferenceName": "_SurfaceFoamTexture",
     "m_GeneratePropertyBlock": true,
@@ -13232,6 +13360,8 @@
         "m_GuidSerialized": "8e9334d7-4923-48f0-9e92-7b2349648a51"
     },
     "m_Name": "Surface Foam Tiling and Offset",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_1E8026AE",
     "m_OverrideReferenceName": "_SurfaceFoamTilingAndOffset",
     "m_GeneratePropertyBlock": true,
@@ -13387,6 +13517,8 @@
         "m_GuidSerialized": "4b93e5d7-8e95-4e45-8545-d093540f4ec6"
     },
     "m_Name": "Refraction",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_2E86150B",
     "m_OverrideReferenceName": "_RefractionStrength",
     "m_GeneratePropertyBlock": true,
@@ -13410,6 +13542,8 @@
         "m_GuidSerialized": "cb1f7110-049b-43d4-9bfd-85654f6020bb"
     },
     "m_Name": "Reflection Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_1F5CA3E3",
     "m_OverrideReferenceName": "_PlanarReflectionTexture",
     "m_GeneratePropertyBlock": false,
@@ -13433,6 +13567,8 @@
         "m_GuidSerialized": "a13bb6c9-d958-410b-a47b-07b3810266ee"
     },
     "m_Name": "Deep Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_CA1B777F",
     "m_OverrideReferenceName": "_WaterColorDeep",
     "m_GeneratePropertyBlock": true,
@@ -13729,6 +13865,8 @@
         "m_GuidSerialized": "ddbe17c8-dd7b-4030-a6ac-0a781bb396b5"
     },
     "m_Name": "Shore Blend",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_4697E476",
     "m_OverrideReferenceName": "_ShoreBlend",
     "m_GeneratePropertyBlock": true,
@@ -13959,6 +14097,8 @@
         "m_GuidSerialized": "efc5bce2-bb07-4859-9c8f-3c59244f2f22"
     },
     "m_Name": "Horizon Distance",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_8E4C3F99",
     "m_OverrideReferenceName": "_WaterColorHorizonDistance",
     "m_GeneratePropertyBlock": true,
@@ -14054,6 +14194,8 @@
         "m_GuidSerialized": "04a33ea9-35c3-4bfe-955b-0032ee66d61d"
     },
     "m_Name": "Surface Foam Sampling",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector2_10BE98EB",
     "m_OverrideReferenceName": "_SurfaceFoamSampling",
     "m_GeneratePropertyBlock": true,
@@ -14111,6 +14253,8 @@
         "m_GuidSerialized": "5b27da9f-f5b9-49c9-b7e5-0b6ee6a37363"
     },
     "m_Name": "Intersection Foam Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_4C976B2A",
     "m_OverrideReferenceName": "_IntersectionFoamColor",
     "m_GeneratePropertyBlock": true,
@@ -14322,6 +14466,8 @@
         "m_GuidSerialized": "327850a5-dde0-47ca-b2e9-1835989be38b"
     },
     "m_Name": "Height Mask",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_96D09EDD",
     "m_OverrideReferenceName": "_SurfaceFoamHeightMask",
     "m_GeneratePropertyBlock": true,
@@ -14651,6 +14797,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "ccc314f5ba3b4a85a038e209cbf6055d",
+    "m_Id": 0,
+    "m_DisplayName": "",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "cd1b7f9ffe2820859ca1d5c3bb6af3fb",
     "m_Id": 1,
@@ -14740,6 +14910,8 @@
         "m_GuidSerialized": "deb497c2-eaf6-4c5a-806c-b5ab9945237d"
     },
     "m_Name": "Caustics Depth",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_C385E0D7",
     "m_OverrideReferenceName": "_CausticsDepth",
     "m_GeneratePropertyBlock": true,
@@ -14763,6 +14935,8 @@
         "m_GuidSerialized": "ef01125a-a105-4fd3-99ad-5c9d4c493329"
     },
     "m_Name": "Caustics Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_B19D0369",
     "m_OverrideReferenceName": "_CausticsTexture",
     "m_GeneratePropertyBlock": true,
@@ -15035,6 +15209,8 @@
         "m_GuidSerialized": "7e5dfe90-6371-4d01-8334-1f7270b62ba2"
     },
     "m_Name": "Shore Foam Frequency",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_B5A22A5E",
     "m_OverrideReferenceName": "_ShoreFoamFrequency",
     "m_GeneratePropertyBlock": true,
@@ -15093,6 +15269,8 @@
         "m_GuidSerialized": "6cbd36f5-e6f9-47bf-af51-6402d960ad81"
     },
     "m_Name": "Light Matrix",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Matrix4_D3319215",
     "m_OverrideReferenceName": "_CausticsLightMatrix",
     "m_GeneratePropertyBlock": false,
@@ -15332,6 +15510,8 @@
         "m_GuidSerialized": "54adff7f-1fed-41ee-b43b-833b410e2dd6"
     },
     "m_Name": "Specular",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_807413E5",
     "m_OverrideReferenceName": "_LightingSpecularColor",
     "m_GeneratePropertyBlock": true,
@@ -15597,6 +15777,8 @@
         "m_GuidSerialized": "21500fed-708c-41ba-8a83-9060dbb8cf88"
     },
     "m_Name": "Foam Shadow Depth",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_633ED00B",
     "m_OverrideReferenceName": "_FoamShadowDepth",
     "m_GeneratePropertyBlock": true,
@@ -15620,6 +15802,8 @@
         "m_GuidSerialized": "00cb10e9-447e-4967-a0bc-52f6fd2dd8b2"
     },
     "m_Name": "Underwater Refraction",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_25914AD5",
     "m_OverrideReferenceName": "_UnderwaterRefractionStrength",
     "m_GeneratePropertyBlock": true,
@@ -15729,6 +15913,8 @@
         "m_GuidSerialized": "b4223881-5a8b-4540-9c33-cb0b01fc6c16"
     },
     "m_Name": "Intersection Foam Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_8303E4C0",
     "m_OverrideReferenceName": "_IntersectionFoamTexture",
     "m_GeneratePropertyBlock": true,
@@ -15824,6 +16010,8 @@
         "m_GuidSerialized": "90439bc1-620d-4bc3-8336-a9eb947e523b"
     },
     "m_Name": "Shore Foam Speed",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_238D3E",
     "m_OverrideReferenceName": "_ShoreFoamSpeed",
     "m_GeneratePropertyBlock": true,
@@ -15948,6 +16136,8 @@
         "m_GuidSerialized": "cdc225a6-add0-4003-ab93-1df4b3b42eed"
     },
     "m_Name": "Color Depth",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_43F82B2D",
     "m_OverrideReferenceName": "_WaterColorDepth",
     "m_GeneratePropertyBlock": true,
@@ -15995,6 +16185,8 @@
         "m_GuidSerialized": "30703c1d-3c5c-4184-a23f-6a04723ba557"
     },
     "m_Name": "Normals Movement",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector2_8106F28D",
     "m_OverrideReferenceName": "_NormalsMovement",
     "m_GeneratePropertyBlock": true,
@@ -16138,6 +16330,8 @@
         "m_GuidSerialized": "2064e3eb-9a9f-475d-9be3-aff0ae547660"
     },
     "m_Name": "Shore Foam Width",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_41689C7F",
     "m_OverrideReferenceName": "_ShoreFoamWidth",
     "m_GeneratePropertyBlock": true,
@@ -16518,6 +16712,8 @@
         "m_GuidSerialized": "f518be10-8f4b-4437-8b81-022b1844d607"
     },
     "m_Name": "Surface Foam Blend",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_3E455941",
     "m_OverrideReferenceName": "_SurfaceFoamBlend",
     "m_GeneratePropertyBlock": true,
@@ -16734,6 +16930,8 @@
         "m_GuidSerialized": "823d0a80-91fc-4884-8e2c-81bf52aa1add"
     },
     "m_Name": "Shadow Mask",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_649EDD5A",
     "m_OverrideReferenceName": "_CausticsShadowMask",
     "m_GeneratePropertyBlock": true,
@@ -16863,6 +17061,8 @@
         "m_GuidSerialized": "84eed07b-7f21-4596-acfe-3dc7fef849d8"
     },
     "m_Name": "Surface Foam Color 1",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_D6D2AAC0",
     "m_OverrideReferenceName": "_SurfaceFoamColor1",
     "m_GeneratePropertyBlock": true,
@@ -17271,6 +17471,8 @@
         "m_GuidSerialized": "4d141768-3cd3-499a-9768-bcd713f2296f"
     },
     "m_Name": "Intersection Foam Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_E38F5B62",
     "m_OverrideReferenceName": "_IntersectionFoamScale",
     "m_GeneratePropertyBlock": true,
@@ -17471,6 +17673,8 @@
         "m_GuidSerialized": "0b5b098e-2e89-4573-938a-306e6f228a31"
     },
     "m_Name": "Wave Directions",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_47063BC1",
     "m_OverrideReferenceName": "_WaveDirections",
     "m_GeneratePropertyBlock": true,
@@ -17557,6 +17761,8 @@
         "m_GuidSerialized": "2a34e91a-563d-427d-bf6d-e1b586b10ba2"
     },
     "m_Name": "Surface Foam Movement",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_E37D4737",
     "m_OverrideReferenceName": "_SurfaceFoamMovement",
     "m_GeneratePropertyBlock": true,
@@ -17693,6 +17899,8 @@
         "m_GuidSerialized": "c0d44c63-4e44-4bb1-a02d-49626625546b"
     },
     "m_Name": "Wave Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_8626C52F",
     "m_OverrideReferenceName": "_WaveColor",
     "m_GeneratePropertyBlock": true,
@@ -17732,6 +17940,30 @@
         "w": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "fdec741ff8864445828151a10f395cd8",
+    "m_Id": 1,
+    "m_DisplayName": "",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
 }
 
 {
